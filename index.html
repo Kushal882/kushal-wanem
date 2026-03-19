@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Kushal Limbu</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">Kushal Limbu</div>
+            <button id="menuToggle" class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="dark-mode-toggle">
+                <input type="checkbox" id="darkModeToggle">
+                <label for="darkModeToggle">🌙</label>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container">
+            <h1>Hi, I'm Kushal Limbu</h1>
+            <p>Web Developer | Creative Problem Solver</p>
+            <a href="#projects" class="btn btn-primary">View My Work</a>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="section animate-on-scroll">
+        <div class="container">
+            <h2>About Me</h2>
+            <p>I'm a passionate web developer focused on creating beautiful, functional, and user-friendly web applications. With experience in HTML, CSS, JavaScript, and other web technologies, I enjoy turning ideas into reality and solving complex problems through code.</p>
+            <p>I'm always learning and exploring new technologies to improve my skills and deliver better solutions.</p>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section bg-light animate-on-scroll">
+        <div class="container">
+            <h2>Featured Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3>Project One</h3>
+                    <p>A responsive web application built with HTML, CSS, and JavaScript. Demonstrates modern design principles and user interaction.</p>
+                    <div class="project-tags">
+                        <span class="tag">HTML</span>
+                        <span class="tag">CSS</span>
+                        <span class="tag">JavaScript</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3>Project Two</h3>
+                    <p>An interactive tool designed to solve real-world problems. Features dynamic content and smooth user experience.</p>
+                    <div class="project-tags">
+                        <span class="tag">HTML</span>
+                        <span class="tag">CSS</span>
+                        <span class="tag">JavaScript</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3>Project Three</h3>
+                    <p>A creative project showcasing modern web design. Focused on performance and accessibility best practices.</p>
+                    <div class="project-tags">
+                        <span class="tag">HTML</span>
+                        <span class="tag">CSS</span>
+                        <span class="tag">JavaScript</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section">
+        <div class="container">
+            <h2>Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-item">
+                    <h3>Frontend</h3>
+                    <ul>
+                        <li>HTML5</li>
+                        <li>CSS3</li>
+                        <li>JavaScript</li>
+                        <li>Responsive Design</li>
+                    </ul>
+                </div>
+                <div class="skill-item">
+                    <h3>Backend</h3>
+                    <ul>
+                        <li>C++</li>
+                        <li>Problem Solving</li>
+                        <li>Data Structures</li>
+                        <li>Algorithms</li>
+                    </ul>
+                </div>
+                <div class="skill-item">
+                    <h3>Tools & Others</h3>
+                    <ul>
+                        <li>Git & GitHub</li>
+                        <li>VS Code</li>
+                        <li>Version Control</li>
+                        <li>Web Development</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section bg-light animate-on-scroll">
+        <div class="container">
+            <h2>Get In Touch</h2>
+            <p>Have a question or want to work together? I'd love to hear from you!</p>
+            <form class="contact-form">
+                <div id="formFeedback" style="display: none; margin-bottom: 1.5rem;"></div>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" placeholder="Your message here..." rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Kushal Limbu. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#" target="_blank">GitHub</a>
+                <a href="#" target="_blank">LinkedIn</a>
+                <a href="#" target="_blank">Twitter</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Project Modal -->
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div class="modal-body"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
