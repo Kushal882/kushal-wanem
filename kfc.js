@@ -1,6 +1,23 @@
 // KFC Website JavaScript
 
 let cart = [];
+const menuItems = [
+    { name: "Original Recipe Chicken (3 pcs)", price: 8.99 },
+    { name: "Extra Crispy Chicken (3 pcs)", price: 9.49 },
+    { name: "Family Feast Bucket (8 pcs)", price: 25.99 },
+    { name: "Chicken Tenders (5 pcs)", price: 8.99 },
+    { name: "Popcorn Chicken (Large)", price: 7.99 },
+    { name: "Crispy Chicken Sandwich", price: 5.99 }
+];
+
+// Update cart counter in navbar
+function updateCartCounter() {
+    const count = cart.reduce((total, item) => total + item.quantity, 0);
+    const counterElement = document.getElementById('cart-count');
+    if (counterElement) {
+        counterElement.textContent = count;
+    }
+}
 
 // Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -15,6 +32,21 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
+
+// Intersection Observer for scroll animations
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.animation = `fadeInUp 0.6s ease-out forwards`;
+            observer.unobserve(entry.target);
+        }
+    });
+}, observerOptions);
 
 // Add to Cart function
 function addToCart(itemName, price) {
@@ -34,32 +66,78 @@ function addToCart(itemName, price) {
     }
 
     // Show notification
-    showNotification(`${itemName} added to cart!`);
+    showNotification(`✓ ${itemName} added to cart!`, 'success');
+    updateCartCounter();
     saveCart();
 }
 
-// Show notification
-function showNotification(message) {
+// Show notification with enhanced styling
+function showNotification(message, type = 'info') {
     const notification = document.createElement('div');
+    const bgColor = type === 'success' ? '#e4002b' : type === 'error' ? '#dc3545' : '#007bff';
+    
     notification.style.cssText = `
         position: fixed;
-        top: 20px;
+        top: 80px;
         right: 20px;
-        background-color: #e4002b;
+        background: linear-gradient(135deg, ${bgColor}, ${bgColor}dd);
         color: white;
         padding: 1rem 2rem;
-        border-radius: 5px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.15);
         z-index: 1000;
-        animation: slideIn 0.3s ease;
+        animation: slideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        font-weight: 500;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.2);
     `;
     notification.textContent = message;
     document.body.appendChild(notification);
 
     setTimeout(() => {
-        notification.remove();
+        notification.style.animation = 'slideOut 0.3s ease-out forwards';
+        setTimeout(() => notification.remove(), 300);
     }, 3000);
 }
+
+// Filter and search functionality
+function filterMenu() {
+    const searchTerm = document.getElementById('searchInput')?.value.toLowerCase() || '';
+    const priceFilter = document.getElementById('priceFilter')?.value || '';
+    
+    const menuGrid = document.getElementById('menuGrid');
+    const items = menuGrid.querySelectorAll('.menu-item');
+    
+    items.forEach(item => {
+        const itemName = item.querySelector('h3')?.textContent.toLowerCase() || '';
+        const itemPrice = parseFloat(item.querySelector('.price')?.textContent.replace('$', '') || 0);
+        
+        let matchesSearch = itemName.includes(searchTerm) || searchTerm === '';
+        let matchesPrice = true;
+        
+        if (priceFilter === 'low') matchesPrice = itemPrice < 10;
+        else if (priceFilter === 'medium') matchesPrice = itemPrice >= 10 && itemPrice <= 20;
+        else if (priceFilter === 'high') matchesPrice = itemPrice > 20;
+        
+        item.style.display = matchesSearch && matchesPrice ? 'block' : 'none';
+        item.style.animation = matchesSearch && matchesPrice ? 'fadeInUp 0.3s ease-out' : 'none';
+    });
+}
+
+function resetFilters() {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('priceFilter').value = '';
+    filterMenu();
+}
+
+// Setup filter event listeners
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const priceFilter = document.getElementById('priceFilter');
+    
+    if (searchInput) searchInput.addEventListener('input', filterMenu);
+    if (priceFilter) priceFilter.addEventListener('change', filterMenu);
+});
 
 // Save cart to localStorage
 function saveCart() {
@@ -71,6 +149,7 @@ function loadCart() {
     const savedCart = localStorage.getItem('kfc_cart');
     if (savedCart) {
         cart = JSON.parse(savedCart);
+        updateCartCounter();
     }
 }
 
@@ -88,10 +167,10 @@ if (contactForm) {
         const message = formData.get('message') || document.querySelector('textarea').value;
 
         if (name && email && message) {
-            showNotification('Message sent successfully! We will get back to you soon.');
+            showNotification('✓ Message sent successfully! We will get back to you soon.', 'success');
             this.reset();
         } else {
-            showNotification('Please fill in all fields.');
+            showNotification('⚠ Please fill in all fields.', 'error');
         }
     });
 }
@@ -107,6 +186,16 @@ style.textContent = `
         to {
             transform: translateX(0);
             opacity: 1;
+        }
+    }
+    @keyframes slideOut {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(400px);
+            opacity: 0;
         }
     }
 `;

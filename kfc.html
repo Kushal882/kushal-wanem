@@ -17,6 +17,7 @@
                 <li><a href="#gallery">Gallery</a></li>
                 <li><a href="#reviews">Reviews</a></li>
                 <li><a href="#contact">Contact</a></li>
+                <li><span class="cart-icon">🛒 <span id="cart-count" class="cart-counter">0</span></span></li>
             </ul>
             <a href="index.html" class="btn-back">← Back to Portfolio</a>
         </div>
@@ -43,7 +44,17 @@
     <section id="menu" class="section bg-light">
         <div class="container">
             <h2>Our Menu</h2>
-            <div class="menu-grid">
+            <div class="filter-controls">
+                <input type="text" id="searchInput" placeholder="Search menu items..." style="min-width: 250px;">
+                <select id="priceFilter">
+                    <option value="">All Prices</option>
+                    <option value="low">Under $10</option>
+                    <option value="medium">$10 - $20</option>
+                    <option value="high">Over $20</option>
+                </select>
+                <button class="filter-btn" onclick="resetFilters()">Reset Filters</button>
+            </div>
+            <div class="menu-grid" id="menuGrid">
                 <div class="menu-item">
                     <img src="https://images.pexels.com/photos/3407857/pexels-photo-3407857.jpeg?w=300&h=250&fit=crop" alt="Original Recipe Chicken" class="menu-image">
                     <h3>Original Recipe Chicken (3 pcs)</h3>
