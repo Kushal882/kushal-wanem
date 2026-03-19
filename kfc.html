@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KFC - Finger Lickin' Good Chicken</title>
+    <link rel="stylesheet" href="kfc.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">🍗 KFC</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#reviews">Reviews</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <a href="index.html" class="btn-back">← Back to Portfolio</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <h1>Welcome to KFC</h1>
+            <p>Finger Lickin' Good Chicken Every Time!</p>
+            <a href="#menu" class="btn btn-primary">Order Now</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2>About Us</h2>
+            <p>KFC has been serving the world's most famous chicken for decades. We use the finest quality chicken, seasoned with our secret blend of 11 herbs and spices. Every piece is prepared fresh to order!</p>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="section bg-light">
+        <div class="container">
+            <h2>Our Menu</h2>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <h3>Crispy Chicken (3 pcs)</h3>
+                    <p>Golden, crispy fried chicken - Colonel's secret recipe</p>
+                    <p class="price">$8.99</p>
+                    <button class="btn btn-small" onclick="addToCart('Crispy Chicken 3pcs', 8.99)">Add to Cart</button>
+                </div>
+                <div class="menu-item">
+                    <h3>Spicy Chicken (3 pcs)</h3>
+                    <p>Extra spicy, flavorful chicken with hot seasonings</p>
+                    <p class="price">$8.99</p>
+                    <button class="btn btn-small" onclick="addToCart('Spicy Chicken 3pcs', 8.99)">Add to Cart</button>
+                </div>
+                <div class="menu-item">
+                    <h3>Family Bucket (8 pcs)</h3>
+                    <p>Our most popular choice - great for sharing!</p>
+                    <p class="price">$19.99</p>
+                    <button class="btn btn-small" onclick="addToCart('Family Bucket', 19.99)">Add to Cart</button>
+                </div>
+                <div class="menu-item">
+                    <h3>Chicken Strips (4 pcs)</h3>
+                    <p>Tender chicken strips, perfect for dipping</p>
+                    <p class="price">$7.99</p>
+                    <button class="btn btn-small" onclick="addToCart('Chicken Strips', 7.99)">Add to Cart</button>
+                </div>
+                <div class="menu-item">
+                    <h3>Wings Combo (6 pcs)</h3>
+                    <p>Crispy wings with our special sauces</p>
+                    <p class="price">$9.99</p>
+                    <button class="btn btn-small" onclick="addToCart('Wings Combo', 9.99)">Add to Cart</button>
+                </div>
+                <div class="menu-item">
+                    <h3>Zinger Sandwich</h3>
+                    <p>Spicy chicken sandwich with crunchy coating</p>
+                    <p class="price">$6.99</p>
+                    <button class="btn btn-small" onclick="addToCart('Zinger Sandwich', 6.99)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="section">
+        <div class="container">
+            <h2>Gallery</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">🍗</div>
+                    <p>Fried Chicken</p>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">🍟</div>
+                    <p>Crispy Fries</p>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">🥤</div>
+                    <p>Refreshing Drinks</p>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">🍖</div>
+                    <p>Wings Special</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews" class="section bg-light">
+        <div class="container">
+            <h2>Customer Reviews</h2>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="rating">⭐⭐⭐⭐⭐</div>
+                    <p>"The chicken is always fresh and delicious! Love the secret recipe taste."</p>
+                    <p class="reviewer">- Emily Brown</p>
+                </div>
+                <div class="review-card">
+                    <div class="rating">⭐⭐⭐⭐⭐</div>
+                    <p>"Family bucket is perfect for gatherings. Everyone loved it!"</p>
+                    <p class="reviewer">- David Wilson</p>
+                </div>
+                <div class="review-card">
+                    <div class="rating">⭐⭐⭐⭐⭐</div>
+                    <p>"Quick delivery, hot food, amazing customer service!"</p>
+                    <p class="reviewer">- Jessica Martinez</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2>Contact Us</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Get in Touch</h3>
+                    <p>📞 Phone: (555) 987-6543</p>
+                    <p>📧 Email: info@kfc.com</p>
+                    <p>📍 Address: 456 Chicken Lane, City, Country</p>
+                    <p>🕐 Hours: Mon-Sun: 10:30 AM - 11:00 PM</p>
+                </div>
+                <form class="contact-form">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea placeholder="Your Message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 KFC. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="kfc.js"></script>
+</body>
+</html>
