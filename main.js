@@ -1,13 +1,15 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
+const fs = require('fs').promises;
 
 function createWindow() {
     const win = new BrowserWindow({
         width: 800,
         height: 600,
         webPreferences: {
-            nodeIntegration: true,
-            contextIsolation: false
+            nodeIntegration: false,
+            contextIsolation: true,
+            preload: path.join(__dirname, 'preload.js')
         }
     });
 
@@ -25,5 +27,39 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
         createWindow();
+    }
+});
+
+// IPC handlers for note operations
+ipcMain.handle('save-note', async (event, note) => {
+    try {
+        const userDataPath = app.getPath('userData');
+        const notePath = path.join(userDataPath, 'note.txt');
+        await fs.writeFile(notePath, note, 'utf8');
+        return { success: true };
+    } catch (error) {
+        return { success: false, error: error.message };
+    }
+});
+
+ipcMain.handle('load-note', async () => {
+    try {
+        const userDataPath = app.getPath('userData');
+        const notePath = path.join(userDataPath, 'note.txt');
+        const note = await fs.readFile(notePath, 'utf8');
+        return { success: true, note };
+    } catch (error) {
+        return { success: false, note: '' };
+    }
+});
+
+ipcMain.handle('clear-note', async () => {
+    try {
+        const userDataPath = app.getPath('userData');
+        const notePath = path.join(userDataPath, 'note.txt');
+        await fs.unlink(notePath);
+        return { success: true };
+    } catch (error) {
+        return { success: false, error: error.message };
     }
 });
