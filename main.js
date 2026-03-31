@@ -1,24 +1,29 @@
-// Get elements
-const noteInput = document.getElementById("note");
-const saveBtn = document.getElementById("save");
+const { app, BrowserWindow } = require('electron');
+const path = require('path');
 
-// Load saved note when page opens
-window.onload = function () {
-    const savedNote = localStorage.getItem("quickNote");
-    if (savedNote) {
-        noteInput.value = savedNote;
+function createWindow() {
+    const win = new BrowserWindow({
+        width: 800,
+        height: 600,
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false
+        }
+    });
+
+    win.loadFile('index.html');
+}
+
+app.whenReady().then(createWindow);
+
+app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
+        app.quit();
     }
-};
+});
 
-// Save note
-saveBtn.addEventListener("click", function () {
-    const noteText = noteInput.value;
-
-    if (noteText.trim() === "") {
-        alert("Note is empty!");
-        return;
+app.on('activate', () => {
+    if (BrowserWindow.getAllWindows().length === 0) {
+        createWindow();
     }
-
-    localStorage.setItem("quickNote", noteText);
-    alert("Note saved!");
 });
