@@ -64,10 +64,20 @@
                 background: #d4edda;
                 border: 1px solid #c3e6cb;
             }
-            .status.error {
+            .save-indicator {
+                margin-left: auto;
+                padding: 5px 10px;
+                border-radius: 4px;
+                font-size: 12px;
+                font-weight: bold;
                 color: #721c24;
                 background: #f8d7da;
                 border: 1px solid #f5c6cb;
+            }
+            .save-indicator.saved {
+                color: #155724;
+                background: #d4edda;
+                border: 1px solid #c3e6cb;
             }
         </style>
     </head>
@@ -78,6 +88,7 @@
             <div class="buttons">
                 <button id="save">Save this Note in class</button>
                 <button id="clear">Clear Note</button>
+                <div id="save-indicator" class="save-indicator">Not saved</div>
             </div>
             <div id="status" class="status"></div>
         </div>

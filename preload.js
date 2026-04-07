@@ -6,4 +6,4 @@ contextBridge.exposeInMainWorld('electronAPI', {
     saveNote: (note) => ipcRenderer.invoke('save-note', note),
     loadNote: () => ipcRenderer.invoke('load-note'),
     clearNote: () => ipcRenderer.invoke('clear-note')
-});
+})

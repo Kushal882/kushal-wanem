@@ -2,7 +2,9 @@
 const noteInput = document.getElementById("note");
 const saveBtn = document.getElementById("save");
 const clearBtn = document.getElementById("clear");
+const newBtn = document.getElementById("new");
 const statusDiv = document.getElementById("status");
+const saveIndicator = document.getElementById("save-indicator");
 
 // Load saved note when page opens
 async function loadNote() {
@@ -11,11 +13,14 @@ async function loadNote() {
         if (result.success) {
             noteInput.value = result.note;
             updateStatus("Note loaded from file.");
+            updateSaveIndicator(true);
         } else {
             updateStatus("No saved note found.");
+            updateSaveIndicator(false);
         }
     } catch (error) {
         updateStatus("Error loading note.", "error");
+        updateSaveIndicator(false);
     }
 }
 
@@ -26,6 +31,7 @@ let autoSaveTimeout;
 noteInput.addEventListener("input", function () {
     clearTimeout(autoSaveTimeout);
     autoSaveTimeout = setTimeout(autoSave, 1000); // Auto-save after 1 second of inactivity
+    updateSaveIndicator(false); // Mark as not saved when typing
 });
 
 async function autoSave() {
@@ -34,11 +40,14 @@ async function autoSave() {
         const result = await window.electronAPI.saveNote(noteText);
         if (result.success) {
             updateStatus("Auto-saved.");
+            updateSaveIndicator(true);
         } else {
             updateStatus("Auto-save failed.", "error");
+            updateSaveIndicator(false);
         }
     } catch (error) {
         updateStatus("Error during auto-save.", "error");
+        updateSaveIndicator(false);
     }
 }
 
@@ -55,11 +64,14 @@ saveBtn.addEventListener("click", async function () {
         const result = await window.electronAPI.saveNote(noteText);
         if (result.success) {
             updateStatus("Note saved successfully!");
+            updateSaveIndicator(true);
         } else {
             updateStatus("Save failed.", "error");
+            updateSaveIndicator(false);
         }
     } catch (error) {
         updateStatus("Error saving note.", "error");
+        updateSaveIndicator(false);
     }
 });
 
@@ -71,6 +83,7 @@ clearBtn.addEventListener("click", async function () {
             const result = await window.electronAPI.clearNote();
             if (result.success) {
                 updateStatus("Note cleared.");
+                updateSaveIndicator(false);
             } else {
                 updateStatus("Clear failed.", "error");
             }
@@ -88,3 +101,30 @@ function updateStatus(message, type = "success") {
         statusDiv.textContent = "";
     }, 3000);
 }
+
+// Update save indicator
+function updateSaveIndicator(saved) {
+    const indicator = document.getElementById("save-indicator");
+    if (saved) {
+        indicator.textContent = "Saved";
+        indicator.classList.add("saved");
+    } else {
+        indicator.textContent = "Not saved";
+        indicator.classList.remove("saved");
+    }
+}
+
+// New note
+newBtn.addEventListener("click", function () {
+    if (noteInput.value.trim() !== "") {
+        if (confirm("You have unsaved changes. Create a new note anyway?")) {
+            noteInput.value = "";
+            updateStatus("New note started.");
+            updateSaveIndicator(false);
+        }
+    } else {
+        noteInput.value = "";
+        updateStatus("New note started.");
+        updateSaveIndicator(false);
+    }
+});
