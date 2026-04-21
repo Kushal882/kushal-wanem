@@ -1,10 +1,13 @@
 // Get elements
 const noteInput = document.getElementById("note");
 const saveBtn = document.getElementById("save");
+const saveasBtn = document.getElementById("saveas");
+const openFileBtn = document.getElementById("open-file");
 const clearBtn = document.getElementById("clear");
 const newBtn = document.getElementById("new");
 const statusDiv = document.getElementById("status");
 const saveIndicator = document.getElementById("save-indicator");
+let lastSavedText = '';
 
 // Load saved note when page opens
 async function loadNote() {
@@ -12,6 +15,7 @@ async function loadNote() {
         const result = await window.electronAPI.loadNote();
         if (result.success) {
             noteInput.value = result.note;
+            lastSavedText = result.note;
             updateStatus("Note loaded from file.");
             updateSaveIndicator(true);
         } else {
@@ -39,6 +43,7 @@ async function autoSave() {
     try {
         const result = await window.electronAPI.saveNote(noteText);
         if (result.success) {
+            lastSavedText = noteText;
             updateStatus("Auto-saved.");
             updateSaveIndicator(true);
         } else {
@@ -51,46 +56,98 @@ async function autoSave() {
     }
 }
 
-// Manual save
-saveBtn.addEventListener("click", async function () {
-    const noteText = noteInput.value;
+// Event listeners
+document.addEventListener('DOMContentLoaded', () => {
+    // Save as
+    saveasBtn.addEventListener("click", async function () {
+        const noteText = noteInput.value;
 
-    if (noteText.trim() === "") {
-        updateStatus("Note is empty! Nothing to save.", "error");
-        return;
-    }
-
-    try {
-        const result = await window.electronAPI.saveNote(noteText);
-        if (result.success) {
-            updateStatus("Note saved successfully!");
-            updateSaveIndicator(true);
-        } else {
-            updateStatus("Save failed.", "error");
-            updateSaveIndicator(false);
+        if (noteText.trim() === "") {
+            updateStatus("Note is empty! Nothing to save.", "error");
+            return;
         }
-    } catch (error) {
-        updateStatus("Error saving note.", "error");
-        updateSaveIndicator(false);
-    }
-});
 
-// Clear note
-clearBtn.addEventListener("click", async function () {
-    if (confirm("Are you sure you want to clear the note?")) {
-        noteInput.value = "";
         try {
-            const result = await window.electronAPI.clearNote();
+            const result = await window.electronAPI.SaveAs(noteText);
             if (result.success) {
-                updateStatus("Note cleared.");
-                updateSaveIndicator(false);
+                lastSavedText = noteText;
+                updateStatus("Note saved as successfully!");
+                updateSaveIndicator(true);
             } else {
-                updateStatus("Clear failed.", "error");
+                updateStatus("Save as failed.", "error");
+                updateSaveIndicator(false);
             }
         } catch (error) {
-            updateStatus("Error clearing note.", "error");
+            updateStatus("Error saving note as.", "error");
+            updateSaveIndicator(false);
         }
-    }
+    });
+
+    // Open file
+    openFileBtn.addEventListener("click", async function () {
+        try {
+            const result = await window.electronAPI.openFile();
+            if (result.success) {
+                noteInput.value = result.contents;
+                lastSavedText = result.contents;
+                updateStatus("File loaded successfully.");
+                updateSaveIndicator(true);
+            } else {
+                if (result.error !== 'Open cancelled') {
+                    updateStatus("Open file failed.", "error");
+                }
+            }
+        } catch (error) {
+            updateStatus("Error opening file.", "error");
+        }
+    });
+
+    // Clear note
+    clearBtn.addEventListener("click", async function () {
+        if (confirm("Are you sure you want to clear the note?")) {
+            noteInput.value = "";
+            try {
+                const result = await window.electronAPI.clearNote();
+                if (result.success) {
+                    lastSavedText = '';
+                    updateStatus("Note cleared.");
+                    updateSaveIndicator(false);
+                } else {
+                    updateStatus("Clear failed.", "error");
+                }
+            } catch (error) {
+                updateStatus("Error clearing note.", "error");
+            }
+        }
+    });
+
+    // New note
+    newBtn.addEventListener("click", async function () {
+        if (noteInput.value === lastSavedText) {
+            const result = await window.electronAPI.newNote();
+            if (result.success) {
+                noteInput.value = "";
+                lastSavedText = '';
+                updateStatus("New note started.");
+                updateSaveIndicator(false);
+            } else {
+                updateStatus("New note failed.", "error");
+            }
+            return;
+        }
+
+        if (confirm("You have unsaved changes. Create a new note anyway?")) {
+            const result = await window.electronAPI.newNote();
+            if (result.success) {
+                noteInput.value = "";
+                lastSavedText = '';
+                updateStatus("New note started.");
+                updateSaveIndicator(false);
+            } else {
+                updateStatus("New note failed.", "error");
+            }
+        }
+    });
 });
 
 // Update status message
@@ -114,17 +171,3 @@ function updateSaveIndicator(saved) {
     }
 }
 
-// New note
-newBtn.addEventListener("click", function () {
-    if (noteInput.value.trim() !== "") {
-        if (confirm("You have unsaved changes. Create a new note anyway?")) {
-            noteInput.value = "";
-            updateStatus("New note started.");
-            updateSaveIndicator(false);
-        }
-    } else {
-        noteInput.value = "";
-        updateStatus("New note started.");
-        updateSaveIndicator(false);
-    }
-});

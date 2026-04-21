@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const fs = require('fs').promises;
 
@@ -60,6 +60,58 @@ ipcMain.handle('clear-note', async () => {
         await fs.unlink(notePath);
         return { success: true };
     } catch (error) {
+        return { success: false, error: error.message };
+    }
+});
+
+ipcMain.handle('save-as', async (event, note) => {
+    try {
+        const result = await dialog.showSaveDialog({
+            title: 'Save Note As',
+            defaultPath: 'note.txt',
+            filters: [{ name: 'Text Files', extensions: ['txt'] }]
+        });
+        if (!result.canceled) {
+            await fs.writeFile(result.filePath, note, 'utf8');
+            return { success: true };
+        } else {
+            return { success: false, error: 'Save cancelled' };
+        }
+    } catch (error) {
+        return { success: false, error: error.message };
+    }
+});
+
+ipcMain.handle('open-file', async () => {
+    try {
+        const result = await dialog.showOpenDialog({
+            title: 'Open Text File',
+            properties: ['openFile'],
+            filters: [{ name: 'Text Files', extensions: ['txt'] }]
+        });
+        if (result.canceled || !result.filePaths.length) {
+            return { success: false, error: 'Open cancelled' };
+        }
+
+        const filePath = result.filePaths[0];
+        const contents = await fs.readFile(filePath, 'utf8');
+        return { success: true, contents };
+    } catch (error) {
+        return { success: false, error: error.message };
+    }
+});
+
+ipcMain.handle('new-note', async () => {
+    // For new note, clear the saved note file if it exists
+    try {
+        const userDataPath = app.getPath('userData');
+        const notePath = path.join(userDataPath, 'note.txt');
+        await fs.unlink(notePath);
+        return { success: true };
+    } catch (error) {
+        if (error.code === 'ENOENT') {
+            return { success: true };
+        }
         return { success: false, error: error.message };
     }
 });
