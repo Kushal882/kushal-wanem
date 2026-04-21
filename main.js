@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const fs = require('fs').promises;
@@ -100,49 +100,4 @@ ipcMain.handle('open-file', async () => {
     } catch (error) {
         return { success: false, error: error.message };
     }
-});
-
-ipcMain.handle('new-note', async () => {
-    // For new note, clear the saved note file if it exists
-    try {
-        const userDataPath = app.getPath('userData');
-        const notePath = path.join(userDataPath, 'note.txt');
-        await fs.unlink(notePath);
-        return { success: true };
-    } catch (error) {
-        if (error.code === 'ENOENT') {
-            return { success: true };
-        }
-        return { success: false, error: error.message };
-    }
-=======
-const { app, BrowserWindow } = require('electron');
-const path = require('path');
-
-function createWindow() {
-    const win = new BrowserWindow({
-        width: 800,
-        height: 600,
-        webPreferences: {
-            nodeIntegration: true,
-            contextIsolation: false
-        }
-    });
-
-    win.loadFile('index.html');
-}
-
-app.whenReady().then(createWindow);
-
-app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') {
-        app.quit();
-    }
-});
-
-app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-        createWindow();
-    }
->>>>>>> 010537ddb5bf69f863c1b802c761865b59e1e74b
 });
