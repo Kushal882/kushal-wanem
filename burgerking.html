@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BurgerKing - Best Burgers in Town</title>
+    <link rel="stylesheet" href="burgerking.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">🍔 BurgerKing</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#reviews">Reviews</a></li>
+                <li><a href="#contact">Contact</a></li>                <li><span class="cart-icon">🛒 <span id="cart-count" class="cart-counter">0</span></span></li>            </ul>
+            <a href="index.html" class="btn-back">← Back to Portfolio</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero" style="background: linear-gradient(rgba(255,107,53,0.7), rgba(216,67,21,0.7)), url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=1200&h=600&fit=crop') center/cover no-repeat;">
+        <div class="container">
+            <h1>Welcome to BurgerKing</h1>
+            <p>Experience the Juiciest Burgers in Town!</p>
+            <a href="#menu" class="btn btn-primary">Order Now</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2>About Us</h2>
+            <p>At BurgerKing, we serve premium quality burgers made with fresh ingredients and passion. Every burger is prepared to order with the finest beef, fresh vegetables, and our signature sauces.</p>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="section bg-light">
+        <div class="container">
+            <h2>Our Menu</h2>
+            <div class="filter-controls">
+                <input type="text" id="searchInput" placeholder="Search menu items..." style="min-width: 250px;">
+                <select id="priceFilter">
+                    <option value="">All Prices</option>
+                    <option value="low">Under $10</option>
+                    <option value="medium">$10 - $15</option>
+                    <option value="high">Over $15</option>
+                </select>
+                <button class="filter-btn" onclick="resetFilters()">Reset Filters</button>
+            </div>
+            <div class="menu-grid" id="menuGrid">
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1584275545620-b3fb3af6f432?w=300&h=250&fit=crop" alt="Whopper" class="menu-image">
+                    <h3>Whopper®</h3>
+                    <p>Our flame-grilled signature burger with tomato, lettuce, pickle, onion & mayo</p>
+                    <p class="price">$8.99</p>
+                    <button class="btn btn-small" onclick="addToCart('Whopper', 8.99)">Add to Cart</button>
+                </div>
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1635520318265-8cab520717ea?w=300&h=250&fit=crop" alt="Double Whopper" class="menu-image">
+                    <h3>Double Whopper®</h3>
+                    <p>Two flame-grilled beef patties, cheese, lettuce, tomato, pickle, onion, mayo</p>
+                    <p class="price">$10.99</p>
+                    <button class="btn btn-small" onclick="addToCart('Double Whopper', 10.99)">Add to Cart</button>
+                </div>
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=300&h=250&fit=crop" alt="Whopper Jr" class="menu-image">
+                    <h3>Whopper Jr.®</h3>
+                    <p>A smaller flame-grilled burger with all the Whopper flavor</p>
+                    <p class="price">$5.99</p>
+                    <button class="btn btn-small" onclick="addToCart('Whopper Jr', 5.99)">Add to Cart</button>
+                </div>
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1585238341710-4b5ff32c153b?w=300&h=250&fit=crop" alt="Bacon Cheeseburger" class="menu-image">
+                    <h3>Bacon King®</h3>
+                    <p>Two flame-grilled patties, chopped bacon, American cheese, and ranch sauce</p>
+                    <p class="price">$9.99</p>
+                    <button class="btn btn-small" onclick="addToCart('Bacon King', 9.99)">Add to Cart</button>
+                </div>
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=250&fit=crop" alt="Double Cheeseburger" class="menu-image">
+                    <h3>Double Cheeseburger</h3>
+                    <p>Two flame-grilled beef patties with melted American cheese and pickles</p>
+                    <p class="price">$8.49</p>
+                    <button class="btn btn-small" onclick="addToCart('Double Cheeseburger', 8.49)">Add to Cart</button>
+                </div>
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1564938675-2f0f28ced78a?w=300&h=250&fit=crop" alt="Crispy Chicken Sandwich" class="menu-image">
+                    <h3>Crispy Chicken Sandwich</h3>
+                    <p>Golden crispy chicken tender on a toasted bun with mayo and lettuce</p>
+                    <p class="price">$6.99</p>
+                    <button class="btn btn-small" onclick="addToCart('Crispy Chicken Sandwich', 6.99)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="section">
+        <div class="container">
+            <h2>Gallery</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop" alt="Classic Burger" class="gallery-image">
+                    <p>Classic Burger</p>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=300&h=300&fit=crop" alt="Bacon Deluxe" class="gallery-image">
+                    <p>Bacon Deluxe</p>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1635520318265-8cab520717ea?w=300&h=300&fit=crop" alt="Cheese Burger" class="gallery-image">
+                    <p>Cheese Burger</p>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1585238341710-4b5ff32c153b?w=300&h=300&fit=crop" alt="Spicy Edition" class="gallery-image">
+                    <p>Spicy Edition</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews" class="section bg-light">
+        <div class="container">
+            <h2>Customer Reviews</h2>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="rating">⭐⭐⭐⭐⭐</div>
+                    <p>"Best burgers I've ever had! Highly recommended!"</p>
+                    <p class="reviewer">- John Doe</p>
+                </div>
+                <div class="review-card">
+                    <div class="rating">⭐⭐⭐⭐⭐</div>
+                    <p>"Fresh ingredients and amazing taste. Will definitely order again!"</p>
+                    <p class="reviewer">- Sarah Smith</p>
+                </div>
+                <div class="review-card">
+                    <div class="rating">⭐⭐⭐⭐⭐</div>
+                    <p>"Fast delivery and perfect packaging. Great service!"</p>
+                    <p class="reviewer">- Mike Johnson</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2>Contact Us</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Get in Touch</h3>
+                    <p>📞 Phone: (555) 123-4567</p>
+                    <p>📧 Email: info@burgerking.com</p>
+                    <p>📍 Address: 123 Main Street, City, Country</p>
+                    <p>🕐 Hours: Mon-Sun: 10:00 AM - 10:00 PM</p>
+                </div>
+                <form class="contact-form">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea placeholder="Your Message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 BurgerKing. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="burgerking.js"></script>
+</body>
+</html>
